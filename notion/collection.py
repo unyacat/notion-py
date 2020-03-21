@@ -298,7 +298,8 @@ class CollectionQuery(object):
         calendar_by="",
         group_by="",
     ):
-        assert not (aggregate and aggregations), "Use only one of `aggregate` or `aggregations` (old vs new format)"
+        # Notion api handle both
+        # assert not (aggregate and aggregations), "Use only one of `aggregate` or `aggregations` (old vs new format)"
         self.collection = collection
         self.collection_view = collection_view
         self.search = search

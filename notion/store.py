@@ -308,7 +308,8 @@ class RecordStore(object):
         group_by="",
     ):
 
-        assert not (aggregate and aggregations), "Use only one of `aggregate` or `aggregations` (old vs new format)"
+        # Notion api handle both
+        # assert not (aggregate and aggregations), "Use only one of `aggregate` or `aggregations` (old vs new format)"
 
         # convert singletons into lists if needed
         if isinstance(aggregate, dict):
