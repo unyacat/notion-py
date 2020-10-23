@@ -23,7 +23,7 @@ Note: the latest version of **notion-py** requires Python 3.5 or greater.
 ```Python
 from notion.client import NotionClient
 
-# Obtain the `token_v2` value by inspecting your browser cookies on a logged-in session on Notion.so
+# Obtain the `token_v2` value by inspecting your browser cookies on a logged-in (non-guest) session on Notion.so
 client = NotionClient(token_v2="<token_v2>")
 
 # Replace this URL with the URL of the page you want to edit
@@ -92,7 +92,8 @@ collection = client.get_collection(COLLECTION_ID) # get an existing collection
 cvb = page.children.add_new(CollectionViewBlock, collection=collection)
 view = cvb.views.add_new(view_type="table")
 
-# now the filters and format options on the view can bet set as desired.
+# Before the view can be browsed in Notion, 
+# the filters and format options on the view should be set as desired.
 # 
 # for example:
 #   view.set("query", ...)
@@ -205,7 +206,7 @@ Note: You can combine `filter`, `aggregate`, and `sort`. See more examples of qu
 You can also see [more examples in action in the smoke test runner](https://github.com/jamalex/notion-py/blob/master/notion/smoke_test.py). Run it using:
 
 ```sh
-python run_smoke_test.py
+python run_smoke_test.py --page [YOUR_NOTION_PAGE_URL] --token [YOUR_NOTION_TOKEN_V2]
 ```
 
 # _Quick plug: Learning Equality is hiring!_
