@@ -533,12 +533,32 @@ class PageBlock(BasicBlock):
         api_to_python=add_signed_prefix_as_needed,
         python_to_api=remove_signed_prefix_as_needed,
     )
-    
+
     cover = field_map(
         "format.page_cover",
         api_to_python=add_signed_prefix_as_needed,
         python_to_api=remove_signed_prefix_as_needed,
     )
+
+    locked = field_map("format.block_locked")
+
+    def get_backlinks(self):
+        """
+        Returns a list of blocks that referencing the current PageBlock. Note that only PageBlocks support backlinks.
+        """
+        data = self._client.post(
+            "getBacklinksForBlock",
+            {"blockId": self.id},
+        ).json()
+        backlinks = []
+        for block in data.get("backlinks") or []:
+            mention = block.get("mentioned_from")
+            if not mention:
+                continue
+            block_id = mention.get("block_id") or mention.get("parent_block_id")
+            if block_id:
+                backlinks.append(self._client.get_block(block_id))
+        return backlinks
 
 class BulletedListBlock(BasicBlock):
 
@@ -731,6 +751,8 @@ class CollectionViewBlock(MediaBlock):
     def description(self, val):
         self.collection.description = val
 
+    locked = field_map("format.block_locked")
+
     def _str_fields(self):
         return super()._str_fields() + ["title", "collection"]
 
@@ -790,7 +812,7 @@ class CollectionViewPageBlock(CollectionViewBlock):
         api_to_python=add_signed_prefix_as_needed,
         python_to_api=remove_signed_prefix_as_needed,
     )
-    
+
     cover = field_map(
         "format.page_cover",
         api_to_python=add_signed_prefix_as_needed,

@@ -209,9 +209,26 @@ You can also see [more examples in action in the smoke test runner](https://gith
 python run_smoke_test.py --page [YOUR_NOTION_PAGE_URL] --token [YOUR_NOTION_TOKEN_V2]
 ```
 
-# _Quick plug: Learning Equality is hiring!_
+## Example: Lock/Unlock A Page
+```Python
+from notion.client import NotionClient
 
-We're a [small nonprofit](https://learningequality.org/) with [global impact](https://learningequality.org/ka-lite/map/), building [exciting tech](https://learningequality.org/kolibri/)! We're currently [hiring](https://grnh.se/6epyi21) -- come join us!
+# Obtain the `token_v2` value by inspecting your browser cookies on a logged-in session on Notion.so
+client = NotionClient(token_v2="<token_v2>")
+
+# Replace this URL with the URL of the page or database you want to edit
+page = client.get_block("https://www.notion.so/myorg/Test-c0d20a71c0944985ae96e661ccc99821")
+
+# The "locked" property is available on PageBlock and CollectionViewBlock objects
+# Set it to True to lock the page/database
+page.locked = True
+# and False to unlock it again
+page.locked = False
+```
+
+# _Quick plug: Learning Equality needs your support!_
+
+If you'd like to support notion-py development, please consider [donating to my open-source nonprofit, Learning Equality](https://learningequality.org/donate/), since when I'm not working on notion-py, it probably means I'm heads-down fundraising for our global education work (bringing resources like Khan Academy to communities with no Internet). COVID has further amplified needs, with over a billion kids stuck at home, and over half of them without the connectivity they need for distance learning. You can now also [support our work via GitHub Sponsors](https://github.com/sponsors/learningequality)!
 
 # Related Projects
 
