@@ -362,9 +362,9 @@ class CollectionQuery(object):
         group_by="",
         limit=100
     ):
-        assert not (
-            aggregate and aggregations
-        ), "Use only one of `aggregate` or `aggregations` (old vs new format)"
+        # assert not (
+        #     aggregate and aggregations
+        # ), "Use only one of `aggregate` or `aggregations` (old vs new format)"
         self.collection = collection
         self.collection_view = collection_view
         self.search = search
