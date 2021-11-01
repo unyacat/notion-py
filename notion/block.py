@@ -653,6 +653,20 @@ class EmbedOrUploadBlock(EmbedBlock):
         self.source = data["url"]
         self.file_id = data["url"][len(S3_URL_PREFIX) :].split("/")[0]
 
+    def upload_file_bin(self, binary: bytes, filename: str, mimetype: str):
+        data = self._client.post(
+            "getUploadFileUrl",
+            {"bucket": "secure", "name": filename, "contentType": mimetype},
+        ).json()
+
+        response = requests.put(
+            data["signedPutUrl"], data=binary, headers={"Content-type": mimetype}
+        )
+        response.raise_for_status()
+
+        self.display_source = data["url"]
+        self.source = data["url"]
+        self.file_id = data["url"][len(S3_URL_PREFIX):].split("/")[0]
 
 class VideoBlock(EmbedOrUploadBlock):
 
